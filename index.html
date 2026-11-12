@@ -15,26 +15,33 @@ button{font-family:inherit}
  text-shadow:0 0 12px rgba(32,216,255,.85),0 0 34px rgba(32,216,255,.45);transition:opacity .25s ease}
 h1,.quando{transition:opacity .3s ease}
 body.entra .negozio,body.entra h1,body.entra .quando{opacity:0}
-/* v0.9.136: l'ingresso. Il nome del negozio si compone al centro (una lettera dopo l'altra, ognuna dalla sua direzione), poi sale al suo posto */
+/* v0.9.136: l'ingresso. Il nome del negozio si compone al centro (una lettera dopo l'altra, ognuna dalla sua direzione), poi sale al suo posto.
+   v0.9.137: qui dentro si muovono SOLO posizione e trasparenza (transform e opacity): niente sfocature, niente aloni o colori che cambiano
+   mentre qualcosa si muove. Il resto, su un telefono, va a scatti. */
 .ingresso{position:fixed;left:0;top:0;right:0;bottom:0;z-index:55;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.4vmin;
- text-align:center;padding:0 5vw;overflow:hidden;background:#0c1826 radial-gradient(ellipse 90% 60% at 50% 50%,#16395a 0%,#0c1826 74%);
- transition:background-color .7s ease;animation:ingBasta 0s linear 12s forwards}
-.ingresso.via{background:transparent;pointer-events:none}
-.ingresso b{display:block;max-width:100%;font-size:clamp(26px,6.2vw,118px);font-weight:800;letter-spacing:.14em;line-height:1.12;text-transform:uppercase;color:#eafcff;
- text-shadow:0 0 18px rgba(32,216,255,.95),0 0 60px rgba(32,216,255,.6),0 0 130px rgba(32,216,255,.35);transform-origin:0 0}
+ text-align:center;padding:0 5vw;overflow:hidden;animation:ingBasta 0s linear 12s forwards}
+.ingresso .fondo{position:absolute;left:0;top:0;right:0;bottom:0;background:#0c1826 radial-gradient(ellipse 90% 60% at 50% 50%,#16395a 0%,#0c1826 74%);
+ transition:opacity .5s ease .3s;will-change:opacity}
+.ingresso .luce{position:absolute;left:-10%;top:15%;width:120%;height:70%;
+ background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(32,216,255,.26) 0%,rgba(32,216,255,.10) 42%,rgba(32,216,255,0) 70%);
+ opacity:0;animation:ingSu .9s ease forwards;transition:opacity .3s ease;will-change:opacity}
+.ingresso.via{pointer-events:none}
+.ingresso.via .fondo,.ingresso.via .luce{opacity:0!important;animation:none}
+.ingresso b{position:relative;display:block;max-width:100%;font-size:clamp(26px,6.2vw,118px);font-weight:800;letter-spacing:.14em;line-height:1.12;text-transform:uppercase;color:#eafcff;
+ text-shadow:0 0 14px rgba(32,216,255,.9),0 0 38px rgba(32,216,255,.5);transform-origin:0 0}
 .ingresso b u{display:inline-block;white-space:nowrap;text-decoration:none}
-.ingresso b span{display:inline-block;opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.5);filter:blur(5px);
- animation:ingLettera .75s cubic-bezier(.16,1,.3,1) forwards,ingLampo .5s ease-out 1}
-.ingresso i{width:min(46vw,620px);height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#20d8ff 20%,#fff 50%,#20d8ff 80%,transparent);
- box-shadow:0 0 18px rgba(32,216,255,.9);transform:scaleX(0);animation:ingRiga .7s cubic-bezier(.2,.8,.2,1) forwards;transition:opacity .35s}
-.ingresso em{font-style:normal;font-size:clamp(12px,1.25vw,22px);font-weight:700;letter-spacing:.42em;color:#9fd8ff;opacity:0;animation:ingSu .7s ease forwards;transition:opacity .35s}
+.ingresso b span{position:relative;display:inline-block;opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.5);will-change:transform,opacity;
+ animation:ingLettera .9s cubic-bezier(.22,.8,.3,1) forwards}
+.ingresso b span::after{content:attr(data-c);position:absolute;left:0;top:0;color:#fff;text-shadow:0 0 16px #fff,0 0 36px #20d8ff;opacity:0;will-change:opacity;
+ animation:ingLampo .6s ease-out var(--l) 1}
+.ingresso i{position:relative;width:min(46vw,620px);height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#20d8ff 20%,#fff 50%,#20d8ff 80%,transparent);
+ transform:scaleX(0);animation:ingRiga .7s cubic-bezier(.2,.8,.2,1) forwards;transition:opacity .3s}
+.ingresso em{position:relative;font-style:normal;font-size:clamp(12px,1.25vw,22px);font-weight:700;letter-spacing:.42em;color:#9fd8ff;opacity:0;animation:ingSu .7s ease forwards;transition:opacity .3s}
 .ingresso.via i,.ingresso.via em{opacity:0!important;animation:none}
-.ingresso.via b{transition:transform .8s cubic-bezier(.5,0,.15,1),color .8s,text-shadow .8s,opacity .25s ease;color:#8fecff;
- text-shadow:0 0 12px rgba(32,216,255,.85),0 0 34px rgba(32,216,255,.45)}
+.ingresso.via b{transition:transform .8s cubic-bezier(.5,0,.15,1),opacity .25s ease;will-change:transform,opacity}
 .ingresso.fatto b{opacity:0}
-.ingresso.via b span{animation:none;opacity:1;transform:none;filter:none}
-@keyframes ingLettera{30%{opacity:1;filter:blur(0)}to{opacity:1;transform:none;filter:blur(0)}}
-@keyframes ingLampo{0%{color:#fff;text-shadow:0 0 22px #fff,0 0 70px #20d8ff,0 0 150px rgba(32,216,255,.8)}}
+@keyframes ingLettera{35%{opacity:1}to{opacity:1;transform:none}}
+@keyframes ingLampo{0%{opacity:0}30%{opacity:1}to{opacity:0}}
 @keyframes ingRiga{to{transform:scaleX(1)}}
 @keyframes ingSu{to{opacity:1}}
 @keyframes ingBasta{to{visibility:hidden}}
@@ -258,7 +265,7 @@ body.tutti .gr:nth-child(3){transition-delay:.65s}body.tutti .gr:nth-child(4){tr
 </div>
 </div></div>
 <div class="grande" id="grande" hidden><div class="foglio-qr"></div><b></b><span></span></div>
-<div class="ingresso" id="ingresso" aria-hidden="true" hidden><b></b><i></i><em>LA TUA VISTA</em></div>
+<div class="ingresso" id="ingresso" aria-hidden="true"><div class="fondo"></div><div class="luce"></div><b></b><i></i><em>LA TUA VISTA</em></div>
 <script>
 var QR=(function(){
 var AL=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90]],BL=[[[1,26,19]],[[1,44,34]],[[1,70,55]],[[1,100,80]],[[1,134,108]],[[2,86,68]],[[2,98,78]],[[2,121,97]],[[2,146,116]],[[2,86,68],[2,87,69]],[[4,101,81]],[[2,116,92],[2,117,93]],[[4,133,107]],[[3,145,115],[1,146,116]],[[5,109,87],[1,110,88]],[[5,122,98],[1,123,99]],[[1,135,107],[5,136,108]],[[5,150,120],[1,151,121]],[[3,141,113],[4,142,114]],[[3,135,107],[5,136,108]]],EXP=[],LOG=[],FA=[1,0,1,1,1,0,1,0,0,0,0];
@@ -427,7 +434,7 @@ function prepara(V){var $=function(i){return document.getElementById(i)},c=V.cen
  document.querySelector('.qr .bianco').innerHTML=QR.svg(location.href.split('#')[0].split('?')[0]+location.hash,'#04233a',t('Codice QR con i dati della visita'))}
 document.body.className='pubblica';
 var V=leggiLink();
-if(!V){[].forEach.call(document.querySelectorAll('.tasti,.palco,.due,.basso'),function(e){e.hidden=true});
+if(!V){document.getElementById('ingresso').hidden=true;[].forEach.call(document.querySelectorAll('.tasti,.palco,.due,.basso'),function(e){e.hidden=true});
  document.getElementById('titolo').textContent='La tua vista';document.getElementById('quando').textContent='';
  document.querySelector('.pg').insertAdjacentHTML('beforeend','<div class="niente">Apri il link che ti ha mandato il tuo ottico.</div>')}
 else{prepara(V);
@@ -502,13 +509,14 @@ function ingresso(){
  if(!o||!nome){if(o)o.hidden=true;parti();return}
  var b=o.querySelector('b'),lettere=[],prima=Math.random()*360;b.textContent='';
  nome.split(' ').forEach(function(parola,k){if(k)b.appendChild(document.createTextNode(' '));
-  var u=document.createElement('u');Array.from(parola).forEach(function(c){var s=document.createElement('span');s.textContent=c;u.appendChild(s);lettere.push(s)});b.appendChild(u)});
- var n=lettere.length,passo=Math.min(0.085,1.5/n),onda=Math.min(0.035,0.6/n),fine=0.25+n*passo+0.5;
+  var u=document.createElement('u');Array.from(parola).forEach(function(c){var s=document.createElement('span');s.textContent=c;s.setAttribute('data-c',c);u.appendChild(s);lettere.push(s)});b.appendChild(u)});
+ var n=lettere.length,passo=Math.min(0.085,1.5/n),onda=Math.min(0.035,0.6/n),fine=0.25+n*passo+0.65;
  lettere.forEach(function(s,i){var ang;do{ang=Math.random()*360}while(Math.abs(((ang-prima+540)%360)-180)>120);prima=ang;
   var r=34+Math.random()*14,rad=ang*Math.PI/180;
   s.style.setProperty('--dx',(Math.cos(rad)*r).toFixed(1)+'vmin');s.style.setProperty('--dy',(Math.sin(rad)*r).toFixed(1)+'vmin');
-  s.style.animationDelay=(0.25+i*passo).toFixed(3)+'s,'+(fine+0.15+i*onda).toFixed(3)+'s'});
+  s.style.animationDelay=(0.25+i*passo).toFixed(3)+'s';s.style.setProperty('--l',(fine+0.15+i*onda).toFixed(3)+'s')});
  o.querySelector('i').style.animationDelay=fine.toFixed(2)+'s';o.querySelector('em').style.animationDelay=(fine+0.25).toFixed(2)+'s';
+ o.querySelector('.luce').style.animationDelay=(fine-0.2).toFixed(2)+'s';
  B.classList.add('entra');o.hidden=false;
  // quanto grande: su uno schermo stretto (il telefono) il nome riempie la riga; un nome lungo prima si rimpicciolisce un po',
  // poi va a capo fra una parola e l'altra (mai dentro una parola), al massimo su tre righe
@@ -528,7 +536,7 @@ function ingresso(){
   var fatto=false,arrivo=function(){if(fatto)return;fatto=true;B.classList.remove('entra');o.classList.add('fatto');setTimeout(function(){o.hidden=true},320)};
   b.addEventListener('transitionend',function(e){if(e.propertyName=='transform')arrivo()});setTimeout(arrivo,1400);
   o.classList.add('via');b.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) scale('+sc.toFixed(4)+')';
-  parti()},Math.round((fine+0.15+n*onda+1.4)*1000))}
+  setTimeout(parti,200)},Math.round((fine+0.15+n*onda+1.4)*1000))}
 if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){if($('ingresso'))$('ingresso').hidden=true;disegna(DUR)}else ingresso();
 })();
 
