@@ -11,7 +11,33 @@ button{font-family:inherit}
 .pg{max-width:460px;margin:0 auto;padding:22px 16px 36px;display:flex;flex-direction:column;gap:16px}
 .testa{display:flex;flex-direction:column;gap:14px}
 .chi{opacity:var(--tit)}
-.negozio{font-size:12px;font-weight:700;letter-spacing:.16em;color:#9fd8ff;text-transform:uppercase;margin-bottom:6px}
+.negozio{font-size:22px;font-weight:800;letter-spacing:.14em;line-height:1.12;color:#8fecff;text-transform:uppercase;margin-bottom:6px;
+ text-shadow:0 0 12px rgba(32,216,255,.85),0 0 34px rgba(32,216,255,.45);transition:opacity .25s ease}
+h1,.quando{transition:opacity .3s ease}
+body.entra .negozio,body.entra h1,body.entra .quando{opacity:0}
+/* v0.9.136: l'ingresso. Il nome del negozio si compone al centro (una lettera dopo l'altra, ognuna dalla sua direzione), poi sale al suo posto */
+.ingresso{position:fixed;left:0;top:0;right:0;bottom:0;z-index:55;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.4vmin;
+ text-align:center;padding:0 5vw;overflow:hidden;background:#0c1826 radial-gradient(ellipse 90% 60% at 50% 50%,#16395a 0%,#0c1826 74%);
+ transition:background-color .7s ease;animation:ingBasta 0s linear 12s forwards}
+.ingresso.via{background:transparent;pointer-events:none}
+.ingresso b{display:block;max-width:100%;font-size:clamp(26px,6.2vw,118px);font-weight:800;letter-spacing:.14em;line-height:1.12;text-transform:uppercase;color:#eafcff;
+ text-shadow:0 0 18px rgba(32,216,255,.95),0 0 60px rgba(32,216,255,.6),0 0 130px rgba(32,216,255,.35);transform-origin:0 0}
+.ingresso b u{display:inline-block;white-space:nowrap;text-decoration:none}
+.ingresso b span{display:inline-block;opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.5);filter:blur(5px);
+ animation:ingLettera .75s cubic-bezier(.16,1,.3,1) forwards,ingLampo .5s ease-out 1}
+.ingresso i{width:min(46vw,620px);height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#20d8ff 20%,#fff 50%,#20d8ff 80%,transparent);
+ box-shadow:0 0 18px rgba(32,216,255,.9);transform:scaleX(0);animation:ingRiga .7s cubic-bezier(.2,.8,.2,1) forwards;transition:opacity .35s}
+.ingresso em{font-style:normal;font-size:clamp(12px,1.25vw,22px);font-weight:700;letter-spacing:.42em;color:#9fd8ff;opacity:0;animation:ingSu .7s ease forwards;transition:opacity .35s}
+.ingresso.via i,.ingresso.via em{opacity:0!important;animation:none}
+.ingresso.via b{transition:transform .8s cubic-bezier(.5,0,.15,1),color .8s,text-shadow .8s,opacity .25s ease;color:#8fecff;
+ text-shadow:0 0 12px rgba(32,216,255,.85),0 0 34px rgba(32,216,255,.45)}
+.ingresso.fatto b{opacity:0}
+.ingresso.via b span{animation:none;opacity:1;transform:none;filter:none}
+@keyframes ingLettera{30%{opacity:1;filter:blur(0)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes ingLampo{0%{color:#fff;text-shadow:0 0 22px #fff,0 0 70px #20d8ff,0 0 150px rgba(32,216,255,.8)}}
+@keyframes ingRiga{to{transform:scaleX(1)}}
+@keyframes ingSu{to{opacity:1}}
+@keyframes ingBasta{to{visibility:hidden}}
 h1{margin:0 0 4px;font-size:31px;line-height:1.06;font-weight:800;color:#fff}
 .quando{font-size:15px;color:#9db0c3}
 .tasti{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
@@ -115,9 +141,10 @@ body.tutti .gr:nth-child(3){transition-delay:.65s}body.tutti .gr:nth-child(4){tr
 .qr b{display:block;font-size:17px;font-weight:700;color:#e9f2fa;line-height:1.2}
 .qr span{display:block;margin-top:6px;font-size:13px;line-height:1.35;color:#9db0c3}
 @media (min-width:1000px){
- .pg{max-width:1680px;padding:24px 40px 28px;gap:18px}
+ .pg{max-width:1680px;padding:16px 40px 28px;gap:18px}
+ .negozio{font-size:31px;margin-bottom:3px}
  .testa{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
- h1{font-size:40px}.quando{font-size:17px}
+ h1{font-size:34px}.quando{font-size:17px}
  .tasti{gap:12px}
  .sw{flex:none;order:0}
  #rivedi{width:auto;padding:0 24px}#rivedi span{display:inline}
@@ -161,7 +188,7 @@ body.tutti .gr:nth-child(3){transition-delay:.65s}body.tutti .gr:nth-child(4){tr
  .qr b{font-size:14px;white-space:nowrap}.qr span{display:none}
 }
 @media (min-width:1000px) and (max-width:1500px){
- h1{font-size:36px}
+ h1{font-size:31px}.negozio{font-size:27px}
  #rivedi{width:48px;padding:0}#rivedi span{display:none}.tasto{padding:0 18px}
  .gruppi-in{gap:8px;padding:0 12px}.gr{padding:12px 12px 14px}
  .tab{gap:9px 4px}.tab span,.fila span.v{font-size:clamp(14px,1.18vw,19px)}
@@ -231,6 +258,7 @@ body.tutti .gr:nth-child(3){transition-delay:.65s}body.tutti .gr:nth-child(4){tr
 </div>
 </div></div>
 <div class="grande" id="grande" hidden><div class="foglio-qr"></div><b></b><span></span></div>
+<div class="ingresso" id="ingresso" aria-hidden="true" hidden><b></b><i></i><em>LA TUA VISTA</em></div>
 <script>
 var QR=(function(){
 var AL=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90]],BL=[[[1,26,19]],[[1,44,34]],[[1,70,55]],[[1,100,80]],[[1,134,108]],[[2,86,68]],[[2,98,78]],[[2,121,97]],[[2,146,116]],[[2,86,68],[2,87,69]],[[4,101,81]],[[2,116,92],[2,117,93]],[[4,133,107]],[[3,145,115],[1,146,116]],[[5,109,87],[1,110,88]],[[5,122,98],[1,123,99]],[[1,135,107],[5,136,108]],[[5,150,120],[1,151,121]],[[3,141,113],[4,142,114]],[[3,135,107],[5,136,108]]],EXP=[],LOG=[],FA=[1,0,1,1,1,0,1,0,0,0,0];
@@ -312,7 +340,7 @@ function applica(G){function metti(s,a,v){[].forEach.call(document.querySelector
  metti('.mp','d',G.ponte);metti('.mh','d','M'+f(G.lati[0].nx)+' 92 H'+f(W-G.lati[1].nx))}
 return{valida:valida,geometria:geometria,applica:applica}})();
 
-var EN_T={"OCCHIO DESTRO": "RIGHT EYE", "OCCHIO SINISTRO": "LEFT EYE", "SFERA": "SPHERE", "CILINDRO": "CYLINDER", "ASSE": "AXIS", "PUPILLA": "PUPIL", "ALTEZZA": "HEIGHT", "PONTE": "BRIDGE", "DISTANZA TRA LE PUPILLE": "PUPIL DISTANCE", "Per te": "For you", "Tutti i dati": "All the data", "Rivedi": "Replay", "Destro negli anni": "Right over the years", "Sinistro negli anni": "Left over the years", "Per il tuo ottico": "For your optician", "Dentro ci sono tutti i dati della visita.": "It holds all the data of the visit.", "Cosa far vedere": "What to show", "I tuoi occhi": "Your eyes", "La tua vista negli anni": "Your eyesight over the years", "Tutti i dati della visita": "All the data of the visit", "Il codice per il tuo ottico": "The code for your optician", "Codice QR con i dati della visita": "QR code with the data of the visit", "La tua vista": "Your eyesight", "Prescrizione": "Prescription", "Misura dello strumento": "Instrument measurement", "Centratura": "Centring", "Pressione": "Tonometer", "Destro": "Right", "Sinistro": "Left", "forottero": "phoropter", "autoref": "autorefractor", "prima visita": "first visit", "nessuno storico": "no history", "Ecco la tua vista": "Here is your eyesight", "I tuoi occhi dentro l'occhiale": "Your eyes inside the glasses", "CALIBRO": "LENS SIZE", "Montatura": "Frame"},MESI=["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"],MESI_EN=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],INGLESE=false;
+var EN_T={"OCCHIO DESTRO": "RIGHT EYE", "OCCHIO SINISTRO": "LEFT EYE", "SFERA": "SPHERE", "CILINDRO": "CYLINDER", "ASSE": "AXIS", "PUPILLA": "PUPIL", "ALTEZZA": "HEIGHT", "PONTE": "BRIDGE", "DISTANZA TRA LE PUPILLE": "PUPIL DISTANCE", "Per te": "For you", "Tutti i dati": "All the data", "Rivedi": "Replay", "Destro negli anni": "Right over the years", "Sinistro negli anni": "Left over the years", "Per il tuo ottico": "For your optician", "Dentro ci sono tutti i dati della visita.": "It holds all the data of the visit.", "Cosa far vedere": "What to show", "I tuoi occhi": "Your eyes", "La tua vista negli anni": "Your eyesight over the years", "Tutti i dati della visita": "All the data of the visit", "Il codice per il tuo ottico": "The code for your optician", "Codice QR con i dati della visita": "QR code with the data of the visit", "La tua vista": "Your eyesight", "Prescrizione": "Prescription", "Misura dello strumento": "Instrument measurement", "Centratura": "Centring", "Pressione": "Tonometer", "Destro": "Right", "Sinistro": "Left", "forottero": "phoropter", "autoref": "autorefractor", "prima visita": "first visit", "nessuno storico": "no history", "Ecco la tua vista": "Here is your eyesight", "I tuoi occhi dentro l'occhiale": "Your eyes inside the glasses", "CALIBRO": "LENS SIZE", "Montatura": "Frame", "LA TUA VISTA": "YOUR EYESIGHT"},MESI=["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"],MESI_EN=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],INGLESE=false;
 function t(s){return INGLESE&&EN_T[s]?EN_T[s]:s}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 function nu(s){if(s===undefined||s===null||s==='')return null;var x=parseFloat(s);return isNaN(x)?null:x}
@@ -466,7 +494,42 @@ if(piccolo&&grande){piccolo.onclick=function(){grande.querySelector('.foglio-qr'
   grande.querySelector('b').textContent=document.querySelector('.qr b').textContent;grande.querySelector('span').textContent=document.querySelector('.qr span').textContent;grande.hidden=false};
  grande.onclick=function(){grande.hidden=true};
  document.addEventListener('keydown',function(e){if(e.key=='Escape')grande.hidden=true})}
-if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)disegna(DUR);else parti();
+// v0.9.136: l'ingresso. Le lettere del nome del negozio arrivano una dopo l'altra, nell'ordine in cui si leggono, ognuna
+// da una direzione a caso (mai vicina a quella della lettera di prima) e dritte; poi un'onda di luce corre sul nome, e il
+// nome sale al suo posto in alto mentre l'occhiale comincia a disegnarsi.
+function ingresso(){
+ var o=$('ingresso'),neg=document.querySelector('.negozio'),nome=neg&&!neg.hidden?neg.textContent.replace(/\s+/g,' ').trim():'';
+ if(!o||!nome){if(o)o.hidden=true;parti();return}
+ var b=o.querySelector('b'),lettere=[],prima=Math.random()*360;b.textContent='';
+ nome.split(' ').forEach(function(parola,k){if(k)b.appendChild(document.createTextNode(' '));
+  var u=document.createElement('u');Array.from(parola).forEach(function(c){var s=document.createElement('span');s.textContent=c;u.appendChild(s);lettere.push(s)});b.appendChild(u)});
+ var n=lettere.length,passo=Math.min(0.085,1.5/n),onda=Math.min(0.035,0.6/n),fine=0.25+n*passo+0.5;
+ lettere.forEach(function(s,i){var ang;do{ang=Math.random()*360}while(Math.abs(((ang-prima+540)%360)-180)>120);prima=ang;
+  var r=34+Math.random()*14,rad=ang*Math.PI/180;
+  s.style.setProperty('--dx',(Math.cos(rad)*r).toFixed(1)+'vmin');s.style.setProperty('--dy',(Math.sin(rad)*r).toFixed(1)+'vmin');
+  s.style.animationDelay=(0.25+i*passo).toFixed(3)+'s,'+(fine+0.15+i*onda).toFixed(3)+'s'});
+ o.querySelector('i').style.animationDelay=fine.toFixed(2)+'s';o.querySelector('em').style.animationDelay=(fine+0.25).toFixed(2)+'s';
+ B.classList.add('entra');o.hidden=false;
+ // quanto grande: su uno schermo stretto (il telefono) il nome riempie la riga; un nome lungo prima si rimpicciolisce un po',
+ // poi va a capo fra una parola e l'altra (mai dentro una parola), al massimo su tre righe
+ var W=o.clientWidth,largo=W*0.86,stretto=W<1000,fs=parseFloat(getComputedStyle(b).fontSize),misura=function(){return b.offsetWidth};
+ b.style.whiteSpace='nowrap';b.style.maxWidth='none';var w=misura();
+ if(w<=largo){if(stretto){fs=Math.min(fs*largo/w,W*0.11);b.style.fontSize=fs+'px'}}
+ else{fs=Math.max(fs*largo/w,fs*(stretto?0.85:0.6));b.style.fontSize=fs+'px';
+  if(misura()>largo+1){b.style.whiteSpace='';b.style.maxWidth=largo+'px';
+   var piu=0;[].forEach.call(b.querySelectorAll('u'),function(u){piu=Math.max(piu,u.offsetWidth)});
+   if(piu>largo){fs=Math.max(12,fs*largo/piu);b.style.fontSize=fs+'px'}
+   for(var k=0;k<4&&b.offsetHeight>fs*1.12*3.4;k++){fs=Math.max(12,fs*0.86);b.style.fontSize=fs+'px'}}}
+ if(b.style.whiteSpace=='nowrap'){b.style.whiteSpace='';b.style.maxWidth=''}
+ setTimeout(function(){var da=b.getBoundingClientRect(),a=neg.getBoundingClientRect(),sc=parseFloat(getComputedStyle(neg).fontSize)/parseFloat(getComputedStyle(b).fontSize);
+  // il nome sale dove sta in alto: lo stesso angolo in alto a sinistra (in alto il nome e' scritto da sinistra)
+  var x=a.left-da.left,y=a.top-da.top;
+  // arrivato (lo dice il nome stesso quando ha finito di salire, non un orologio): il nome vero in alto prende il suo posto
+  var fatto=false,arrivo=function(){if(fatto)return;fatto=true;B.classList.remove('entra');o.classList.add('fatto');setTimeout(function(){o.hidden=true},320)};
+  b.addEventListener('transitionend',function(e){if(e.propertyName=='transform')arrivo()});setTimeout(arrivo,1400);
+  o.classList.add('via');b.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) scale('+sc.toFixed(4)+')';
+  parti()},Math.round((fine+0.15+n*onda+1.4)*1000))}
+if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){if($('ingresso'))$('ingresso').hidden=true;disegna(DUR)}else ingresso();
 })();
 
 }
